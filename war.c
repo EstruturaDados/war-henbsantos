@@ -1,8 +1,6 @@
 // ============================================================================
 //         PROJETO WAR ESTRUTURADO - DESAFIO DE CÓDIGO
 // ============================================================================
-//        
-// ============================================================================
 //
 // OBJETIVOS:
 // - Modularizar completamente o código em funções especializadas.
@@ -16,11 +14,26 @@
 
 // Inclusão das bibliotecas padrão necessárias para entrada/saída, alocação de memória, manipulação de strings e tempo.
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 // --- Constantes Globais ---
 // Definem valores fixos para o número de territórios, missões e tamanho máximo de strings, facilitando a manutenção.
 
+#define MAX_TERRITORIOS 5
+#define MAX_NOME 30
+#define MAX_COR 10
+
 // --- Estrutura de Dados ---
 // Define a estrutura para um território, contendo seu nome, a cor do exército que o domina e o número de tropas.
+
+struct Territorio {
+    char nome[MAX_NOME];
+    char cor[MAX_COR];
+    int tropas;
+};
+
 
 // --- Protótipos das Funções ---
 // Declarações antecipadas de todas as funções que serão usadas no programa, organizadas por categoria.
@@ -30,31 +43,58 @@
 // Função utilitária:
 
 // --- Função Principal (main) ---
-// Função principal que orquestra o fluxo do jogo, chamando as outras funções em ordem.
 int main() {
-    // 1. Configuração Inicial (Setup):
-    // - Define o locale para português.
-    // - Inicializa a semente para geração de números aleatórios com base no tempo atual.
-    // - Aloca a memória para o mapa do mundo e verifica se a alocação foi bem-sucedida.
-    // - Preenche os territórios com seus dados iniciais (tropas, donos, etc.).
-    // - Define a cor do jogador e sorteia sua missão secreta.
+    // Declaração do vetor de territórios que armazenará os dados.
+    struct Territorio territorios[MAX_TERRITORIOS];
 
-    // 2. Laço Principal do Jogo (Game Loop):
-    // - Roda em um loop 'do-while' que continua até o jogador sair (opção 0) ou vencer.
-    // - A cada iteração, exibe o mapa, a missão e o menu de ações.
-    // - Lê a escolha do jogador e usa um 'switch' para chamar a função apropriada:
-    //   - Opção 1: Inicia a fase de ataque.
-    //   - Opção 2: Verifica se a condição de vitória foi alcançada e informa o jogador.
-    //   - Opção 0: Encerra o jogo.
-    // - Pausa a execução para que o jogador possa ler os resultados antes da próxima rodada.
+    // --- Cadastro dos Territórios ---
+    printf("=== Cadastro de Territórios ===\n");
+    for (int i = 0; i < MAX_TERRITORIOS; i++) {
+        printf("\n--- Cadastro do território %d: ---\n", i + 1);
 
-    // 3. Limpeza:
-    // - Ao final do jogo, libera a memória alocada para o mapa para evitar vazamentos de memória.
+        // Entrada do nome do território
+        printf("Nome do território (ex: America, Asia): ");
+        scanf(" %[^\n]", territorios[i].nome);
+
+        // Entrada da cor do exército com verificação de duplicidade
+        int corValida;
+        do {
+            corValida = 1; // assume que a cor é válida inicialmente
+            printf("Cor do exército (ex: Azul, Verde, Amarelo): ");
+            scanf(" %[^\n]", territorios[i].cor);
+
+            // Verificação: a cor já foi cadastrada anteriormente?
+            for (int j = 0; j < i; j++) {
+                if (strcmp(territorios[i].cor, territorios[j].cor) == 0) {
+                    printf("Cor já utilizada no território %s. Digite outra cor.\n", territorios[j].nome);
+                    corValida = 0; // inválida, precisa digitar novamente
+                    break;
+                }
+            }
+        } while (!corValida);
+
+        // Entrada da quantidade de tropas
+        printf("Quantidade de tropas: ");
+        scanf("%d", &territorios[i].tropas);
+    }
+
+    // --- Exibição dos Territórios ---
+    printf("\n====================================================\n");
+    printf("      MAPA DO MUNDO - ESTADO ATUAL   \n");
+    printf("====================================================\n");
+
+    for (int i = 0; i < MAX_TERRITORIOS; i++) {
+        printf("\nTERRITÓRIO %d:\n", i + 1);
+        printf("Nome: %s\n", territorios[i].nome);
+        printf("Cor do exército: %s\n", territorios[i].cor);
+        printf("Quantidade de tropas: %d\n", territorios[i].tropas);
+    }
 
     return 0;
 }
 
-// --- Implementação das Funções ---
+// --- Comentários para futuras funções ---
+// (Mantenha apenas os comentários, sem duplicar código ou structs)
 
 // alocarMapa():
 // Aloca dinamicamente a memória para o vetor de territórios usando calloc.
