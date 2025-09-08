@@ -1,17 +1,6 @@
 // ============================================================================
 //         PROJETO WAR ESTRUTURADO - DESAFIO DE CÓDIGO (com Missões)
 // ============================================================================
-//
-// ALTERAÇÃO PEDIDA: Removida a verificação de cor duplicada no cadastro
-// dos territórios — agora cores podem se repetir livremente.
-//
-// Recursos incluídos:
-// - Missões estratégicas por jogador (armazenadas dinamicamente).
-// - Atribuição aleatória de missão a cada jogador.
-// - Verificação silenciosa de missão ao final da fase de ataques.
-// - Cadastro de 2 até 5 jogadores (ajustável).
-//
-// ============================================================================
 
 #include <stdio.h>
 #include <stdlib.h>
